@@ -1,9 +1,15 @@
-.386P
-.model flat
+; Andrew Dunne
+; 5/ 5 / 24
+; Provide functionality for the read/write functions
+; To provide an easier way of testing all the different program components I programmed it so that the program will 
+; never end unless stopped force stopped
 
+
+.386P                                           ; 8068 or x86 code version 38
+
+.model flat	                                    ; memory model
 
 extern	 initUtilities:proc
-
 extern	 inputStringParser:proc
 extern	 calculate:proc
 extern	 writeInt:proc
@@ -13,7 +19,7 @@ extern	 writeline:proc
 extern   _ExitProcess@4: near
 
 
-.data
+.data                                           ; data section is used to store data such as global variables
 	result              byte        'The answer is: '
 	reset				byte		10,10
 

@@ -1,12 +1,18 @@
-.386P
-.model flat	
+; Andrew Dunne
+; 5/ 5 / 24
+; Provide functionality for the read/write functions
+
+
+.386P                                           ; 8068 or x86 code version 386
+
+.model flat	                                    ; memory model
 
 extern  _GetStdHandle@4:near
 extern  _WriteConsoleA@20:near
 extern  _ReadConsoleA@20:near
 
 
-.data
+.data                                           ; data section is used to store data such as global variables
 
 outputHandle		dword   ?						; Storage the the handle for input and output. uninitslized
 inputHandle         dword   ?
@@ -84,21 +90,22 @@ _fillString:
         call writeline
         ret                        ; And return
 writeInt ENDP
+
 writeline PROC near
 _writeline :
-	pop		eax; pop the address of the stack into eax
-	pop		edx
-	pop		ecx; Pop top of stack and put into ECX
-	push	eax; Push content of EAX onto the top of the stack.
+pop		eax; pop the address of the stack into eax
+pop		edx
+pop		ecx; Pop top of stack and put into ECX
+push	eax; Push content of EAX onto the top of the stack.
 
 ; WriteConsole(handle, &msg[0], numCharsToWrite, &written, 0)
-	push    0
-	push    offset written
-	push    ecx; return ecx to the stack for the call to _WriteConsoleA@20 (20 is how many bits are in the call stack)
-	push    edx
-	push    outputHandle
-	call    _WriteConsoleA@20
-	ret
+push    0
+push    offset written
+push    ecx; return ecx to the stack for the call to _WriteConsoleA@20 (20 is how many bits are in the call stack)
+push    edx
+push    outputHandle
+call    _WriteConsoleA@20
+ret
 writeline ENDP
 
 readline PROC near
