@@ -84,22 +84,21 @@ _fillString:
         call writeline
         ret                        ; And return
 writeInt ENDP
-
 writeline PROC near
 _writeline :
-pop		eax; pop the address of the stack into eax
-pop		edx
-pop		ecx; Pop top of stack and put into ECX
-push	eax; Push content of EAX onto the top of the stack.
+	pop		eax; pop the address of the stack into eax
+	pop		edx
+	pop		ecx; Pop top of stack and put into ECX
+	push	eax; Push content of EAX onto the top of the stack.
 
 ; WriteConsole(handle, &msg[0], numCharsToWrite, &written, 0)
-push    0
-push    offset written
-push    ecx; return ecx to the stack for the call to _WriteConsoleA@20 (20 is how many bits are in the call stack)
-push    edx
-push    outputHandle
-call    _WriteConsoleA@20
-ret
+	push    0
+	push    offset written
+	push    ecx; return ecx to the stack for the call to _WriteConsoleA@20 (20 is how many bits are in the call stack)
+	push    edx
+	push    outputHandle
+	call    _WriteConsoleA@20
+	ret
 writeline ENDP
 
 readline PROC near
